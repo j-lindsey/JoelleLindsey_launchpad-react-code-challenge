@@ -20,6 +20,14 @@ export const fetchPosts = createAsyncThunk(
         return res;
     });
 
+export const searchPosts = createAsyncThunk(
+    'homePosts/searchPosts',
+    async (id, thunkAPI) => {
+        const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+            .then(data => data.json())
+        return res;
+    });
+
 export const addPosts = createAsyncThunk(
     'posts/addPost',
     async (post, { rejectWithValue }) => {
@@ -61,6 +69,7 @@ export const homePostsSlice = createSlice({
         addPostUserId: (state, { payload }) => {
             state.newPost.userId = payload;
         },
+
     },
     extraReducers: {
         [fetchPosts.pending]: (state) => {
@@ -85,6 +94,17 @@ export const homePostsSlice = createSlice({
             state.newPost = {};
             state.addPostButtonTrigger = false;
             console.log("post added successfully");
+        },
+        [searchPosts.pending]: (state) => {
+            state.loading = true;
+        },
+        [searchPosts.rejected]: (state, action) => {
+            state.loading = false;
+            console.log(action.payload);
+        },
+        [searchPosts.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.posts=[payload];
         }
     }
 });
