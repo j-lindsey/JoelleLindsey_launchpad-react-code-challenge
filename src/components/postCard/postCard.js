@@ -6,6 +6,9 @@ const PostCard = (props) => {
 
     return (
         <div className="post-item">
+            <div className="delete">
+                <button>&#10005;</button>
+            </div>
             <div className="post-title">
                 <h3>{data.title}</h3>
             </div>

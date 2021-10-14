@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchPosts } from '../../features/homePosts/homePostsSlice';
-import { useSelector } from 'react-redux';
-import { getAllPosts } from '../../features/homePosts/homePostsSlice';
+import React, { useEffect, } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts, getAllPosts, addPostButton, getaddPostButtonTrigger } from '../../features/homePosts/homePostsSlice';
 import './home.css';
 
 import PostCard from '../../components/postCard/postCard';
+import AddPostModal from '../../components/addpostmodal/addpostmodal';
 
 function Home() {
   const dispatch = useDispatch();
@@ -13,7 +12,6 @@ function Home() {
     dispatch(fetchPosts());
   }, [dispatch]);
   const posts = useSelector(getAllPosts);
-  console.log(posts);
   let renderPosts =
     posts.length === 0 ?
       (
@@ -22,11 +20,19 @@ function Home() {
         posts.map((post) => {
           return <PostCard key={post.id} data={post} />
         }))
-
+  const triggerValue = useSelector(getaddPostButtonTrigger);
   return (
     <div className="home">
+      <h2>Posts</h2>
+      <div className="header-container">
+        <div className="search">
+        </div>
+        <div className="addpost">
+          <button onClick={() => dispatch(addPostButton())}>Add Post</button>
+          <AddPostModal trigger={triggerValue} />
+        </div>
+      </div>
       <div className="post-list">
-        <h2>Posts</h2>
         <div className="post-container">
           {renderPosts}
         </div>
