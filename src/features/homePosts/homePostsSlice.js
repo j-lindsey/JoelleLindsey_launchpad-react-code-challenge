@@ -5,11 +5,19 @@ const initialState = {
     error: '',
     posts: [],
     addPostButtonTrigger: false,
+    editPostButtonTrigger: false,
     newPost: {
         title: '',
         body: '',
         userId: null
     },
+    editPost: {
+        id: null,
+        title: '',
+        body: '',
+        userId: null
+    },
+
 };
 
 export const fetchPosts = createAsyncThunk(
@@ -52,6 +60,30 @@ export const addPosts = createAsyncThunk(
     }
 )
 
+export const editPosts = createAsyncThunk(
+    'posts/editPost',
+    async ({ post, id }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                `https://jsonplaceholder.typicode.com/posts/${id}`,
+                {
+                    method: 'PUT',
+                    body: JSON.stringify(post),
+                    header: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+
+            const data = await response.json()
+            return data
+        } catch (err) {
+            // You can choose to use the message attached to err or write a custom error
+            return rejectWithValue('Opps there seems to be an error')
+        }
+    }
+)
+
 export const homePostsSlice = createSlice({
     name: 'homePosts',
     initialState,
@@ -68,6 +100,21 @@ export const homePostsSlice = createSlice({
         },
         addPostUserId: (state, { payload }) => {
             state.newPost.userId = payload;
+        },
+        editPostButton: (state) => {
+            state.editPostButtonTrigger = true;
+        },
+        editPostValue: (state, { payload }) => {
+            state.editPost = payload;
+        },
+        editPostTitle: (state, { payload }) => {
+            state.editPost.title = payload;
+        },
+        editPostBody: (state, { payload }) => {
+            state.editPost.body = payload;
+        },
+        editPostUserId: (state, { payload }) => {
+            state.editPost.userId = payload;
         },
 
     },
@@ -91,7 +138,11 @@ export const homePostsSlice = createSlice({
         },
         [addPosts.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            state.newPost = {};
+            state.newPost = {
+                title: '',
+                body: '',
+                userId: null
+            };
             state.addPostButtonTrigger = false;
             console.log("post added successfully");
         },
@@ -104,15 +155,35 @@ export const homePostsSlice = createSlice({
         },
         [searchPosts.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            state.posts=[payload];
-        }
+            state.posts = [payload];
+        },
+        [editPosts.pending]: (state) => {
+            state.loading = true;
+        },
+        [editPosts.rejected]: (state, action) => {
+            state.loading = false;
+            console.log(action.payload);
+        },
+        [editPosts.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.editPost = {
+                id: null,
+                title: '',
+                body: '',
+                userId: null
+            };
+            state.editPostButtonTrigger = false;
+            console.log("post edited successfully");
+        },
     }
 });
 
-export const { addPostButton, addPostTitle, addPostBody, addPostUserId } = homePostsSlice.actions;
+export const { addPostButton, addPostTitle, addPostBody, addPostUserId, editPostButton, editPostValue, editPostBody, editPostTitle, editPostUserId } = homePostsSlice.actions;
 export const getAllPosts = (state) => state.posts.posts;
 export const getaddPostButtonTrigger = (state) => state.posts.addPostButtonTrigger;
+export const geteditPostButtonTrigger = (state) => state.posts.editPostButtonTrigger;
 export const getnewPost = (state) => state.posts.newPost;
+export const geteditPost = (state) => state.posts.editPost;
 
 export default homePostsSlice.reducer;
 
