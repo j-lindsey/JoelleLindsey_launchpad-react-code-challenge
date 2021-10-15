@@ -38,7 +38,7 @@ function Home() {
           <input type="number" placeholder="Search By Id" onChange={handleSearchChange} />
         </div>
         <div className="addpost">
-          <button onClick={() => dispatch(addPostButton())}>Add Post</button>
+          <button onClick={() => dispatch(addPostButton())}>Add New Post</button>
           <AddPostModal trigger={triggerValue} />
         </div>
       </div>
