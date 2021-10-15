@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getCountries, fetchCountries } from '../../features/universityInfo/universitySlice';
+import { getCountries, fetchCountries, selectCountry } from '../../features/universityInfo/universitySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import './customSelect.css';
 
@@ -13,19 +13,24 @@ const CustomSelect = () => {
     let renderCountries =
         countries.length === 0 ?
             (
-                <option className="countries-error">Error loading Countries</option>)
+                <option className="countries-error">Error loading Countries</option>
+            )
             : (
-                Object.keys(countries).map(key=>
-                    <option key={key} value={countries[key].country}>{countries[key].country}</option>))
-
-return (
-    <div className="country-select">
-        <select>
-            {renderCountries}
-        </select>
-
-    </div>
-)
+                Object.keys(countries).map(key =>
+                    <option key={key} value={countries[key].country}>{countries[key].country}</option>)
+            )
+    const populateCountryData = function (e) {
+        let country = e.target.value;
+        dispatch(selectCountry(country));
+    }
+    return (
+        <div className="country-select">
+            <select onChange={populateCountryData}>
+                <option key="CA" value="Canada">Canada</option>
+                {renderCountries}
+            </select>
+        </div>
+    )
 }
 
 export default CustomSelect;

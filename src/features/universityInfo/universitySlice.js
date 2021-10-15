@@ -5,6 +5,8 @@ const initialState = {
     loading: false,
     error: '',
     countries: [],
+    universities: [],
+    selectedCountry: "Canada",
 };
 
 export const fetchCountries = createAsyncThunk(
@@ -22,14 +24,22 @@ export const fetchCountries = createAsyncThunk(
         return res;
     });
 
+    export const fetchUniversities = createAsyncThunk(
+        'university/getUniversities',
+        async (country, thunkAPI) => {
+            const res = await fetch(`http://universities.hipolabs.com/search?country=${country}`)
+                .then(data => data.json())
+            return res;
+        });
+
 
 export const universitySlice = createSlice({
     name: 'university',
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        addPostButton: (state) => {
-            state.addPostButtonTrigger = true;
+        selectCountry: (state, {payload}) => {
+            state.selectedCountry = payload;
         }
     },
     extraReducers: {
@@ -42,11 +52,24 @@ export const universitySlice = createSlice({
         [fetchCountries.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.countries = payload.data;
+        },
+        [fetchUniversities.pending]: (state) => {
+            state.loading = true;
+        },
+        [fetchUniversities.rejected]: (state) => {
+            state.loading = false;
+        },
+        [fetchUniversities.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            console.log(payload);
+            state.universities = payload;
         }
     }
 });
 
-export const { addPostButto, } = universitySlice.actions;
+export const { selectCountry, } = universitySlice.actions;
 export const getCountries = (state) => state.universities.countries;
+export const getselectedCountry = (state) => state.universities.selectedCountry;
+export const getUniversities = (state) => state.universities.universities;
 
 export default universitySlice.reducer;
