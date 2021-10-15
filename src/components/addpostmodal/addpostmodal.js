@@ -18,7 +18,7 @@ function AddPostModal(props) {
     return (props.trigger) ? (
         <div className="addpostmodal" >
             <div className="addpost-inner">
-                <button className="close" onClick={() => dispatch(closeAddModal())}>&#10005;</button>
+                <button id="close" onClick={() => dispatch(closeAddModal())}>&#10005;</button>
                 <h2>Add a New Post</h2>
                 <textarea rows="2" cols="50" id="post-title" placeholder="Title" onChange={handleTitleChange} ></textarea>
                 <textarea rows="4" cols="50" id="post-body" placeholder="Body of Post" onChange={handleBodyChange}></textarea>

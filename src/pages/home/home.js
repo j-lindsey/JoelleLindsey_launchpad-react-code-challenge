@@ -2,7 +2,7 @@ import React, { useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, getAllPosts, addPostButton, getaddPostButtonTrigger, searchPosts } from '../../features/homePosts/homePostsSlice';
 import './home.css';
-import CustomButton from '../../components/customButton/customButton';
+
 import PostCard from '../../components/postCard/postCard';
 import AddPostModal from '../../components/addpostmodal/addpostmodal';
 
@@ -38,7 +38,7 @@ function Home() {
           <input type="number" placeholder="Search By Id" onChange={handleSearchChange} />
         </div>
         <div className="addpost">
-          <CustomButton onClick={() => dispatch(addPostButton())}>Add Post</CustomButton>
+          <button onClick={() => dispatch(addPostButton())}>Add Post</button>
           <AddPostModal trigger={triggerValue} />
         </div>
       </div>

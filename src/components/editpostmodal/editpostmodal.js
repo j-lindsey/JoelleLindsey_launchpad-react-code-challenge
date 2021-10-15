@@ -33,7 +33,7 @@ function EditPostModal(props) {
                 <textarea rows="4" cols="50" id="post-body" placeholder="Body of Post" value={post.body} onChange={handleBodyChange}></textarea>
                 <label >User Id</label>
                 <input type="number" id="post-userID" placeholder="User id" value={post.userId} onChange={handleUserIdChange} />
-                <button id="editPost" onClick={() => dispatch(editPosts(post, props.id))}>Edit Post</button>
+                <button id="editPost" onClick={() => dispatch(editPosts(post, props.id))}>Submit Edited Post</button>
             </div>
         </div >
     ) : '';
