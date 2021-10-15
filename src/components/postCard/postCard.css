@@ -9,6 +9,8 @@
     align-items:flex-start;
     margin: 5px;
     text-align:left;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .delete{
     align-self:flex-end;
@@ -19,6 +21,9 @@
     font-size: 15px;
     background-color: white;
     border: none;
+}
+.delete button:hover{
+    color: rgb(255, 0, 0,0.5);
 }
 
 .post-id{

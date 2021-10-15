@@ -1,5 +1,5 @@
 import React from 'react';
-import { editPostButton, geteditPostButtonTrigger, editPostValue } from '../../features/homePosts/homePostsSlice';
+import { editPostButton, geteditPostButtonTrigger, editPostValue, deletePosts } from '../../features/homePosts/homePostsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import EditPostModal from '../../components/editpostmodal/editpostmodal';
 import './postCard.css';
@@ -19,7 +19,7 @@ const PostCard = (props) => {
     return (
         <div className="post-item">
             <div className="delete">
-                <button>&#10005;</button>
+                <button onClick={()=>dispatch(deletePosts(data.id))}>&#10005;</button>
             </div>
             <div className="post-title">
                 <h3>{data.title}</h3>

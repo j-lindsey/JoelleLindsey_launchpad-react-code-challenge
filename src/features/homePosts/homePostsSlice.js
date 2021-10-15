@@ -84,6 +84,26 @@ export const editPosts = createAsyncThunk(
     }
 )
 
+export const deletePosts = createAsyncThunk(
+    'posts/deletePost',
+    async ( id , { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                `https://jsonplaceholder.typicode.com/posts/${id}`,
+                {
+                    method: 'DELETE'
+                }
+            )
+
+            const data = await response.json()
+            return data
+        } catch (err) {
+            // You can choose to use the message attached to err or write a custom error
+            return rejectWithValue('Opps there seems to be an error')
+        }
+    }
+)
+
 export const homePostsSlice = createSlice({
     name: 'homePosts',
     initialState,
@@ -101,6 +121,14 @@ export const homePostsSlice = createSlice({
         addPostUserId: (state, { payload }) => {
             state.newPost.userId = payload;
         },
+        closeAddModal: (state) => {
+            state.newPost = {
+                title: '',
+                body: '',
+                userId: null
+            };
+            state.addPostButtonTrigger = false;
+        },
         editPostButton: (state) => {
             state.editPostButtonTrigger = true;
         },
@@ -115,6 +143,15 @@ export const homePostsSlice = createSlice({
         },
         editPostUserId: (state, { payload }) => {
             state.editPost.userId = payload;
+        },
+        closeEditModal: (state) => {
+            state.editPost = {
+                id: null,
+                title: '',
+                body: '',
+                userId: null
+            };
+            state.editPostButtonTrigger = false;
         },
 
     },
@@ -174,11 +211,22 @@ export const homePostsSlice = createSlice({
             };
             state.editPostButtonTrigger = false;
             console.log("post edited successfully");
+        }, 
+         [deletePosts.pending]: (state) => {
+            state.loading = true;
+        },
+        [deletePosts.rejected]: (state, action) => {
+            state.loading = false;
+            console.log(action.payload);
+        },
+        [deletePosts.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            console.log(payload);
         },
     }
 });
 
-export const { addPostButton, addPostTitle, addPostBody, addPostUserId, editPostButton, editPostValue, editPostBody, editPostTitle, editPostUserId } = homePostsSlice.actions;
+export const { addPostButton, addPostTitle, addPostBody, addPostUserId, editPostButton, editPostValue, editPostBody, editPostTitle, editPostUserId, closeEditModal, closeAddModal} = homePostsSlice.actions;
 export const getAllPosts = (state) => state.posts.posts;
 export const getaddPostButtonTrigger = (state) => state.posts.addPostButtonTrigger;
 export const geteditPostButtonTrigger = (state) => state.posts.editPostButtonTrigger;
