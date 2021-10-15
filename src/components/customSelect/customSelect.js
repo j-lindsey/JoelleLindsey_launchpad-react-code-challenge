@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getCountries, fetchCountries, selectCountry } from '../../features/universityInfo/universitySlice';
+import { getCountries, fetchCountries, selectCountry, fetchUniversities } from '../../features/universityInfo/universitySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import './customSelect.css';
 
@@ -22,6 +22,7 @@ const CustomSelect = () => {
     const populateCountryData = function (e) {
         let country = e.target.value;
         dispatch(selectCountry(country));
+        dispatch(fetchUniversities(country));
     }
     return (
         <div className="country-select">
