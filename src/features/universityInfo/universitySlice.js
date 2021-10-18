@@ -27,7 +27,7 @@ export const fetchCountries = createAsyncThunk(
     export const fetchUniversities = createAsyncThunk(
         'university/getUniversities',
         async (country, thunkAPI) => {
-            const res = await fetch(`http://universities.hipolabs.com/search?country=${country}`)
+            const res = await fetch(`https://pure-fortress-21213.herokuapp.com/universities.hipolabs.com/search?country=${country}`)
                 .then(data => data.json())
             return res;
         });
