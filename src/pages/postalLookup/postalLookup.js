@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchZipCode, getZipCodeData } from '../../features/postalinfo/postalInfoSlice';
+import { fetchZipCode, getZipCodeData, clearZipCode } from '../../features/postalinfo/postalInfoSlice';
 import './postalLookup.css';
 
 
@@ -25,7 +25,6 @@ function PostalLookup() {
                         <p>longitude: {place.longitude} latitude: {place.latitude}</p></div>)
                 }))
     const handleSearchChange = (e) => {
-        console.log(e.target.value);
         if (e.target.value.length < 5) {
             dispatch(clearZipCode())
         } else {
