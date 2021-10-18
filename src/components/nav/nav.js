@@ -13,6 +13,9 @@ function Nav() {
                 <Link to="/Universities">
                     <li>Universities</li>
                 </Link>
+                <Link to="/postal">
+                <li>Postal Lookup</li>
+            </Link>
             </ul>
         </nav>
     );
