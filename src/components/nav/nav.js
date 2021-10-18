@@ -10,6 +10,9 @@ function Nav() {
                 <Link to="/">
                     <li>Home</li>
                 </Link>
+                <Link to="/Universities">
+                    <li>Universities</li>
+                </Link>
             </ul>
         </nav>
     );
