@@ -12,7 +12,7 @@ const initialState = {
 export const fetchCountries = createAsyncThunk(
     'university/getCountries',
     async (thunkAPI) => {
-        const res = await fetch(`https://pure-fortress-21213.herokuapp.com/api.first.org/data/v1/countries`,
+        const res = await fetch(`https://api.first.org/data/v1/countries`,
             {
                 method: 'GET',
                 headers: {
